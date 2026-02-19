@@ -1,3 +1,4 @@
+
 package com.example;
 
 import java.awt.Color;
@@ -68,6 +69,25 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
       //for (.....)  
 //        	populate the board with squares here. Note that the board is composed of 64 squares alternating from 
 //        	white to black.
+        int column = 0;
+        int row = 0;
+        new Square (this, true, 0,0);
+        for(int j = 1; j <= 8; j++){
+            for (int i = 1; i<=8; i++)
+            {
+                if(column<8)
+                {
+                   if(i%2==0) 
+                    new Square (this, true, row, column+1);
+                   else
+                    new Square (this, false, row, column+1);
+                }
+
+            }
+            row++;
+
+
+        }
         
         
         initializePieces();
