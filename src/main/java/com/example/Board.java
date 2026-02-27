@@ -147,8 +147,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
      if (imageUrl != null) {
             // This is the cleanest way to get an AWT Image object from a URL
             backgroundImage = Toolkit.getDefaultToolkit().createImage(imageUrl);
-        } else {
-            System.err.println("Image resource not found. Check path: /src/main/java/com/example/Pictures/");
         }
     
 
@@ -158,7 +156,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 if(sq == fromMoveSquare)
                 	 sq.setBorder(BorderFactory.createLineBorder(Color.blue));
                 sq.paintComponent(g);
-                System.out.println("Painting square at " + x + ", " + y);   
+                
                 
             }
         }
@@ -181,6 +179,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         if (sq.isOccupied()  && sq.getOccupyingPiece().getColor() == whiteTurn){
             currPiece = sq.getOccupyingPiece();
             fromMoveSquare = sq;
+            for(Square s: currPiece.getLegalMoves(this,fromMoveSquare)){
+                s.setBorder(BorderFactory.createLineBorder(Color.blue));
+            }
+            
             if (currPiece.getColor() != whiteTurn)
                 return;
             sq.setDisplay(false);
@@ -195,7 +197,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mouseReleased(MouseEvent e) {
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
-        
+         for(Square[] row: board){
+        for(Square s: row){
+            s.setBorder(null);
+        }
         //using currPiece
         
        if(fromMoveSquare!=null){
@@ -204,7 +209,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
        fromMoveSquare.removePiece();
         }
            fromMoveSquare.setDisplay(true);
-        
+          
+    }
         
 }
 
