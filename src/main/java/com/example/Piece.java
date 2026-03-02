@@ -9,7 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-
+//Piece type: Swapper - can move one space in any direction. Can attack from any direction.
+//When it "attacks" another piece, it swaps squares with that piece
 //you will need to implement two functions in this file.
 public class Piece {
     private final boolean color;
@@ -49,6 +50,8 @@ public class Piece {
     // TO BE IMPLEMENTED!
     //return a list of every square that is "controlled" by this piece. A square is controlled
     //if the piece capture into it legally.
+    //precondition: the board is 8 x 8.
+    //postcondition:returns a list of squares that the the piece can capturn into legally.
     public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
         ArrayList<Square> controlledSquares = new ArrayList<>();
 
@@ -116,6 +119,8 @@ public class Piece {
     //please note that your piece must have some sort of logic. Just being able to move to every square on the board is not
     //going to score any points.
 
+    //precondition: the board is 8 x 8.
+    //postcondition: returns a list of all legal moves for my piece. 
     //moves in any direction one space
     public ArrayList<Square> getLegalMoves(Board b, Square start){
         ArrayList<Square> ret = new ArrayList<>();

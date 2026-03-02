@@ -48,6 +48,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
     //if the player is currently dragging a piece this variable contains it.
     Piece currPiece;
+    Piece swapPiece;
     private Square fromMoveSquare;
     
     //used to keep track of the x/y coordinates of the mouse.
@@ -98,9 +99,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         
         
         initializePieces();
-        //board[7][0].put(new Piece(false,RESOURCES_BPAWN_PNG));
-        //board[0][0].put(new Piece(true, path+ RESOURCES_WPAWN_PNG));
-        
+    
 
         this.setPreferredSize(new Dimension(400, 400));
         this.setMaximumSize(new Dimension(400, 400));
@@ -171,6 +170,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         }
     }
 
+    
     @Override
     public void mousePressed(MouseEvent e) {
         currX = e.getX();
@@ -196,6 +196,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     //should move the piece to the desired location only if this is a legal move.
     //use the pieces "legal move" function to determine if this move is legal, then complete it by
     //moving the new piece to it's new board location. 
+    //precondition: currPiece is initialized.
+    //postcondition: Moves the piece to a location that is legal.
+    // Swaps locations with the opposing piece (if the sqaure is occupied) that's at that location
     @Override
     public void mouseReleased(MouseEvent e) {
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
@@ -207,8 +210,15 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         
             if(fromMoveSquare!=null){
                 if(currPiece!=null&& currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare)){
+                    //check if there is a piece in the end square
+                    swapPiece = endSquare.getOccupyingPiece();
+
+                    // put currPience in endSqaure
                     endSquare.put(currPiece);
                     fromMoveSquare.removePiece();
+                    //if there was a piece in the endSquare, put it in the fromMoveSquare
+                    if(swapPiece != null)
+                        fromMoveSquare.put(swapPiece);
                 }
                 fromMoveSquare.setDisplay(true);
           
