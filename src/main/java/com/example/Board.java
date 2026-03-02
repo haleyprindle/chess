@@ -98,7 +98,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         
         
         initializePieces();
-        board[0][0].put(new Piece(true,RESOURCES_BPAWN_PNG));
+        //board[7][0].put(new Piece(false,RESOURCES_BPAWN_PNG));
+        //board[0][0].put(new Piece(true, path+ RESOURCES_WPAWN_PNG));
+        
 
         this.setPreferredSize(new Dimension(400, 400));
         this.setMaximumSize(new Dimension(400, 400));
@@ -115,8 +117,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	//it's up to you how you wish to arrange your pieces.
     void initializePieces() {
     	
-    	// board[0][0].put(new Piece(true, path+ RESOURCES_WKING_PNG));
-        
+    	board[0][0].put(new Piece(true, RESOURCES_WPAWN_PNG));
+        board[7][0].put(new Piece(false, RESOURCES_BPAWN_PNG));
 
     }
 
@@ -182,10 +184,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             for(Square s: currPiece.getLegalMoves(this,fromMoveSquare)){
                 s.setBorder(BorderFactory.createLineBorder(Color.blue));
             }
-            
+            sq.setDisplay(false);
             if (currPiece.getColor() != whiteTurn)
                 return;
-            sq.setDisplay(false);
+            
         }
         repaint();
     }
@@ -198,21 +200,21 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     public void mouseReleased(MouseEvent e) {
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
          for(Square[] row: board){
-        for(Square s: row){
+            for(Square s: row){
             s.setBorder(null);
-        }
+            }
         //using currPiece
         
-       if(fromMoveSquare!=null){
-        if(currPiece!=null&& currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare)){
-       endSquare.put(currPiece);
-       fromMoveSquare.removePiece();
-        }
-           fromMoveSquare.setDisplay(true);
+            if(fromMoveSquare!=null){
+                if(currPiece!=null&& currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare)){
+                    endSquare.put(currPiece);
+                    fromMoveSquare.removePiece();
+                }
+                fromMoveSquare.setDisplay(true);
           
-    }
+            }
         
-}
+        }
 
         currPiece = null;
         repaint();

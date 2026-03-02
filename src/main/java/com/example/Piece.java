@@ -50,8 +50,94 @@ public class Piece {
     //return a list of every square that is "controlled" by this piece. A square is controlled
     //if the piece capture into it legally.
     public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
-     return null;
+        ArrayList<Square> controlledSquares = new ArrayList<>();
+
+    	if(start.getCol()<7){
+        Square right =board[start.getRow()][start.getCol()+1];
+        Square rightUp =board[start.getRow()-1][start.getCol()+1];
+        Square rightDown =board[start.getRow()+1][start.getCol()+1];
+        
+
+        
+            if(right.getOccupyingPiece().getColor()!=color)
+            {
+                controlledSquares.add(right);
+            }
+
+            if(rightUp.getOccupyingPiece().getColor()!=color){
+
+                if (start.getRow()>0){
+                controlledSquares.add(rightUp);
+                }
+            }
+
+            if(rightDown.getOccupyingPiece().getColor()!=color){
+
+                if (start.getRow()<7){
+                controlledSquares.add(rightDown);
+                }
+                    
+            
+            }
+
+        }
+        
+
+        if(start.getCol()>0){
+        Square left =board[start.getRow()][start.getCol()-1];
+        Square leftUp =board[start.getRow()-1][start.getCol()-1];
+        Square leftDown =board[start.getRow()+1][start.getCol()-1];
+
+        
+            if(left.getOccupyingPiece().getColor()!=color)
+            {
+                controlledSquares.add(left);
+            }
+
+            if(left.getOccupyingPiece().getColor()!=color){
+                if (start.getRow()>0){
+                controlledSquares.add(leftUp);
+                }
+            }
+                
+            if(left.getOccupyingPiece().getColor()!=color){
+                if (start.getRow()<7){
+                controlledSquares.add(leftDown);
+                }
+            }
+            
+        }
+            
+        
+
+        if(start.getRow()>0){
+            Square up =board[start.getRow()-1][start.getCol()];
+
+            if(up.getOccupyingPiece().getColor()!=color){
+            
+                controlledSquares.add(up);
+
+            }
+        if(start.getRow()<7){
+            Square down =board[start.getRow()+1][start.getCol()];
+
+            if(down.getOccupyingPiece().getColor()!=color){
+            
+                controlledSquares.add(down);
+
+            }
+        
     }
+
+        
+    }
+    return controlledSquares;
+      
+}
+        
+
+     
+    
     
 
     //TO BE IMPLEMENTED!
@@ -60,18 +146,90 @@ public class Piece {
     //returns an arraylist of squares which are legal to move to
     //please note that your piece must have some sort of logic. Just being able to move to every square on the board is not
     //going to score any points.
+
+    //moves in any direction one space
     public ArrayList<Square> getLegalMoves(Board b, Square start){
-        ArrayList<Square> ret = new ArrayList();
+        ArrayList<Square> ret = new ArrayList<>();
     	if(start.getCol()<7){
         Square right =b.getSquareArray()[start.getRow()][start.getCol()+1];
-        ret.add(right);
-            if(right.getOccupyingPiece().getColor()!=color)
+        Square rightUp =b.getSquareArray()[start.getRow()-1][start.getCol()+1];
+        Square rightDown =b.getSquareArray()[start.getRow()+1][start.getCol()+1];
+        
+
+        
+            if(right.getOccupyingPiece().getColor()!=color || right.isOccupied()==false)
             {
+                ret.add(right);
+            }
+
+            if(rightUp.getOccupyingPiece().getColor()!=color || rightUp.isOccupied()==false){
+
+                if (start.getRow()>0){
+                ret.add(rightUp);
+                }
+            }
+
+            if(rightDown.getOccupyingPiece().getColor()!=color || rightDown.isOccupied()==false){
+
+                if (start.getRow()<7){
+                ret.add(rightDown);
+                }
+                    
+            
+            }
+
+        }
+        
+
+        if(start.getCol()>0){
+        Square left =b.getSquareArray()[start.getRow()][start.getCol()-1];
+        Square leftUp =b.getSquareArray()[start.getRow()-1][start.getCol()-1];
+        Square leftDown =b.getSquareArray()[start.getRow()+1][start.getCol()-1];
+
+        
+            if(left.getOccupyingPiece().getColor()!=color|| left.isOccupied()==false)
+            {
+                ret.add(left);
+            }
+
+            if(left.getOccupyingPiece().getColor()!=color || leftUp.isOccupied()==false){
+                if (start.getRow()>0){
+                ret.add(leftUp);
+                }
+            }
+                
+            if(left.getOccupyingPiece().getColor()!=color|| leftDown.isOccupied()==false){
+                if (start.getRow()<7){
+                ret.add(leftDown);
+                }
+            }
+            
+        }
+            
+        
+
+        if(start.getRow()>0){
+            Square up =b.getSquareArray()[start.getRow()-1][start.getCol()];
+
+            if(up.getOccupyingPiece().getColor()!=color || up.isOccupied()==false){
+            
+                ret.add(up);
 
             }
-        }
+        if(start.getRow()<7){
+            Square down =b.getSquareArray()[start.getRow()+1][start.getCol()];
 
-        return ret;
+            if(down.getOccupyingPiece().getColor()!=color || down.isOccupied()==false){
+            
+                ret.add(down);
+
+            }
+        
+    }
+
+        
+    }
+    return ret;
     }
     //need to access board array: for loop
     // put all available legal moves
