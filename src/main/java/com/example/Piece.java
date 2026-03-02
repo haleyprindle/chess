@@ -56,81 +56,50 @@ public class Piece {
         Square right =board[start.getRow()][start.getCol()+1];
         Square rightUp =board[start.getRow()-1][start.getCol()+1];
         Square rightDown =board[start.getRow()+1][start.getCol()+1];
-        
-
-        
-            if(right.getOccupyingPiece().getColor()!=color)
-            {
+    
                 controlledSquares.add(right);
-            }
-
-            if(rightUp.getOccupyingPiece().getColor()!=color){
 
                 if (start.getRow()>0){
                 controlledSquares.add(rightUp);
                 }
-            }
-
-            if(rightDown.getOccupyingPiece().getColor()!=color){
-
+    
                 if (start.getRow()<7){
                 controlledSquares.add(rightDown);
                 }
-                    
-            
-            }
-
         }
-        
 
         if(start.getCol()>0){
         Square left =board[start.getRow()][start.getCol()-1];
         Square leftUp =board[start.getRow()-1][start.getCol()-1];
         Square leftDown =board[start.getRow()+1][start.getCol()-1];
 
-        
-            if(left.getOccupyingPiece().getColor()!=color)
-            {
                 controlledSquares.add(left);
-            }
 
-            if(left.getOccupyingPiece().getColor()!=color){
                 if (start.getRow()>0){
                 controlledSquares.add(leftUp);
                 }
-            }
-                
-            if(left.getOccupyingPiece().getColor()!=color){
+            
                 if (start.getRow()<7){
                 controlledSquares.add(leftDown);
                 }
-            }
             
         }
-            
-        
 
         if(start.getRow()>0){
             Square up =board[start.getRow()-1][start.getCol()];
-
-            if(up.getOccupyingPiece().getColor()!=color){
             
                 controlledSquares.add(up);
+        }
 
-            }
+            
         if(start.getRow()<7){
             Square down =board[start.getRow()+1][start.getCol()];
 
-            if(down.getOccupyingPiece().getColor()!=color){
+            
             
                 controlledSquares.add(down);
-
-            }
         
-    }
-
-        
-    }
+        }
     return controlledSquares;
       
 }
@@ -152,30 +121,28 @@ public class Piece {
         ArrayList<Square> ret = new ArrayList<>();
     	if(start.getCol()<7){
         Square right =b.getSquareArray()[start.getRow()][start.getCol()+1];
-        Square rightUp =b.getSquareArray()[start.getRow()-1][start.getCol()+1];
-        Square rightDown =b.getSquareArray()[start.getRow()+1][start.getCol()+1];
+       
         
-
-        
-            if(right.getOccupyingPiece().getColor()!=color || right.isOccupied()==false)
+            if(right.isOccupied()==false || right.getOccupyingPiece().getColor()!=color )
             {
                 ret.add(right);
             }
+            if (start.getRow()>0){
+                Square rightUp =b.getSquareArray()[start.getRow()-1][start.getCol()+1];
+            if(rightUp.isOccupied()==false || rightUp.getOccupyingPiece().getColor()!=color ){
 
-            if(rightUp.getOccupyingPiece().getColor()!=color || rightUp.isOccupied()==false){
-
-                if (start.getRow()>0){
+                
                 ret.add(rightUp);
-                }
+                
             }
+         }
+            if (start.getRow()<7){
+                Square rightDown =b.getSquareArray()[start.getRow()+1][start.getCol()+1];
+            if(rightDown.isOccupied()==false || rightDown.getOccupyingPiece().getColor()!=color ){
 
-            if(rightDown.getOccupyingPiece().getColor()!=color || rightDown.isOccupied()==false){
-
-                if (start.getRow()<7){
                 ret.add(rightDown);
-                }
-                    
-            
+               
+                   }  
             }
 
         }
@@ -183,23 +150,26 @@ public class Piece {
 
         if(start.getCol()>0){
         Square left =b.getSquareArray()[start.getRow()][start.getCol()-1];
-        Square leftUp =b.getSquareArray()[start.getRow()-1][start.getCol()-1];
-        Square leftDown =b.getSquareArray()[start.getRow()+1][start.getCol()-1];
+       
+      
 
         
-            if(left.getOccupyingPiece().getColor()!=color|| left.isOccupied()==false)
+            if( left.isOccupied()==false || left.getOccupyingPiece().getColor()!=color)
             {
                 ret.add(left);
             }
-
-            if(left.getOccupyingPiece().getColor()!=color || leftUp.isOccupied()==false){
-                if (start.getRow()>0){
+            if (start.getRow()>0){
+                 Square leftUp =b.getSquareArray()[start.getRow()-1][start.getCol()-1];
+            if(leftUp.isOccupied()==false || leftUp.getOccupyingPiece().getColor()!=color){
+                
                 ret.add(leftUp);
                 }
             }
+             
+            if (start.getRow()<7){
+                  Square leftDown =b.getSquareArray()[start.getRow()+1][start.getCol()-1];
+            if(leftDown.isOccupied()==false || leftDown.getOccupyingPiece().getColor()!=color){
                 
-            if(left.getOccupyingPiece().getColor()!=color|| leftDown.isOccupied()==false){
-                if (start.getRow()<7){
                 ret.add(leftDown);
                 }
             }
@@ -211,24 +181,24 @@ public class Piece {
         if(start.getRow()>0){
             Square up =b.getSquareArray()[start.getRow()-1][start.getCol()];
 
-            if(up.getOccupyingPiece().getColor()!=color || up.isOccupied()==false){
+            if(up.isOccupied()==false || up.getOccupyingPiece().getColor()!=color){
             
                 ret.add(up);
 
             }
+        }
+        
         if(start.getRow()<7){
             Square down =b.getSquareArray()[start.getRow()+1][start.getCol()];
 
-            if(down.getOccupyingPiece().getColor()!=color || down.isOccupied()==false){
+            if(down.isOccupied()==false || down.getOccupyingPiece().getColor()!=color){
             
                 ret.add(down);
 
             }
         
-    }
+        }
 
-        
-    }
     return ret;
     }
     //need to access board array: for loop
