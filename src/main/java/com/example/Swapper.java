@@ -20,15 +20,7 @@ public class Swapper extends Piece {
     
     
     public Swapper(boolean isWhite, String img_file) {
-        this.color = isWhite;
-         
-        try {
-            if (this.img == null) {
-                this.img = ImageIO.read(new File(System.getProperty("user.dir")+img_file));
-            }
-          } catch (IOException e) {
-            System.out.println("File not found: " + e.getMessage());
-          }
+      super(isWhite, img_file);
     }
     
     
@@ -38,6 +30,7 @@ public class Swapper extends Piece {
     //if the piece capture into it legally.
     //precondition: the board is 8 x 8.
     //postcondition:returns a list of squares that the the piece can capturn into legally.
+    @Override
     public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
         ArrayList<Square> controlledSquares = new ArrayList<>();
 
@@ -108,7 +101,9 @@ public class Swapper extends Piece {
     //precondition: the board is 8 x 8.
     //postcondition: returns a list of all legal moves for my piece. 
     //moves in any direction one space
+    @Override
     public ArrayList<Square> getLegalMoves(Board b, Square start){
+        
         ArrayList<Square> ret = new ArrayList<>();
     	if(start.getCol()<7){
         Square right =b.getSquareArray()[start.getRow()][start.getCol()+1];
