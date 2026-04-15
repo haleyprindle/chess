@@ -190,4 +190,7 @@ public class Swapper extends Piece {
     //need to access board array: for loop
     // put all available legal moves
     //
+
+    public String toString() {
+return ""
 }
