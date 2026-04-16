@@ -190,7 +190,11 @@ public class Swapper extends Piece {
     //need to access board array: for loop
     // put all available legal moves
     //
-
+@Override
     public String toString() {
-return ""
+if (color)
+return "This is a white swapper";
+else
+return "This is a black swapper";
+}
 }

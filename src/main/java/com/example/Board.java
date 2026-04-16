@@ -45,7 +45,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
  
     //contains true if it's white's turn.
     private boolean whiteTurn;
-
+ 
     //if the player is currently dragging a piece this variable contains it.
     Piece currPiece;
     Piece swapPiece;
@@ -116,8 +116,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	//it's up to you how you wish to arrange your pieces.
     void initializePieces() {
     	
-    	board[0][0].put(new Piece(true, RESOURCES_WPAWN_PNG));
-        
+    	board[0][0].put(new Swapper(true, RESOURCES_WPAWN_PNG));
+        board[7][0].put(new Swapper(false, RESOURCES_BPAWN_PNG));
 
     }
 
