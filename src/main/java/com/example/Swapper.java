@@ -1,4 +1,5 @@
 // Haley Prindle 
+// Swapper
 // My piece attacks in any direction, one space from it's occupied square. When it attacks, it swaps squares with the piece it attacks
 //Can only swap piece with the opponent's piece
 

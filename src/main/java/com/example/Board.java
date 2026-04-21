@@ -192,6 +192,13 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         repaint();
     }
 
+
+    //precondition - the board is initialized and contains a king of either color. The boolean kingColor corresponds to the color of the king we wish to know the status of.
+    //postcondition - returns true of the king is in check and false otherwise.
+	public boolean isInCheck(boolean kingColor){
+		return true;
+}
+
     //TO BE IMPLEMENTED!
     //should move the piece to the desired location only if this is a legal move.
     //use the pieces "legal move" function to determine if this move is legal, then complete it by
@@ -212,17 +219,25 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 if(currPiece!=null&& currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare)){
                     //check if there is a piece in the end square
                     swapPiece = endSquare.getOccupyingPiece();
-
+                    Piece captured = endSquare.getOccupyingPiece();
                     // put currPience in endSqaure
                     endSquare.put(currPiece);
                     fromMoveSquare.removePiece();
                     //if there was a piece in the endSquare, put it in the fromMoveSquare
                     if(swapPiece != null)
                         fromMoveSquare.put(swapPiece);
+                    if(isInCheck(whiteTurn)){
+                        fromMoveSquare.put(currPiece);
+                        endSquare.put(captured);
+
+                    }
+                    else
+                    whiteTurn =!whiteTurn;
                 }
                 fromMoveSquare.setDisplay(true);
           
             }
+            
         
         }
 
