@@ -282,23 +282,31 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             if(fromMoveSquare!=null){
                 fromMoveSquare.setDisplay(true);
                 if(currPiece!=null&& currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare)&& whiteTurn == currPiece.getColor()){
+                    if(currPiece instanceof Swapper){
                     //check if there is a piece in the end square
                     swapPiece = endSquare.getOccupyingPiece();
-                    Piece captured = endSquare.getOccupyingPiece();
+
                     // put currPience in endSqaure
                     endSquare.put(currPiece);
                     fromMoveSquare.removePiece();
                     //if there was a piece in the endSquare, put it in the fromMoveSquare
                     if(swapPiece != null)
                         fromMoveSquare.put(swapPiece);
-                    if(isInCheck(whiteTurn)){
+
+                    whiteTurn=!whiteTurn;
+                    }
+                    else  {
+                    Piece captured = endSquare.getOccupyingPiece();
+                    endSquare.put(currPiece);
+                    fromMoveSquare.removePiece();
+                    if(isInCheck(whiteTurn)) {
                         fromMoveSquare.put(currPiece);
                         endSquare.put(captured);
+                    }else {
+                        whiteTurn = !whiteTurn;
+                    }
+                }
 
-                    }
-                    else{
-                        whiteTurn =!whiteTurn;
-                    }
                     
                 }
                 
@@ -306,8 +314,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             }
             
         
-        }
-
+         }
+        System.out.println("Is White: " + whiteTurn);
         currPiece = null;
         repaint();
     }

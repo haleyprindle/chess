@@ -61,7 +61,7 @@ int sr = start.getRow();
 int sc = start.getCol();
 System.out.println("checked square ["+sr+","+sc+"]" );
 // white
-if (iswhite) {
+if (!iswhite) {
 // 1 move forward
 {
 if (sr - 1 >= 0

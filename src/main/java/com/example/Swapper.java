@@ -37,32 +37,37 @@ public class Swapper extends Piece {
 
     	if(start.getCol()<7){
         Square right =board[start.getRow()][start.getCol()+1];
-        Square rightUp =board[start.getRow()-1][start.getCol()+1];
-        Square rightDown =board[start.getRow()+1][start.getCol()+1];
+        Square rightUp = null;
+        Square rightDown = null;
     
                 controlledSquares.add(right);
 
                 if (start.getRow()>0){
+                 rightUp =board[start.getRow()-1][start.getCol()+1];
                 controlledSquares.add(rightUp);
                 }
     
                 if (start.getRow()<7){
+                    rightDown =board[start.getRow()+1][start.getCol()+1];
+                 
                 controlledSquares.add(rightDown);
                 }
         }
 
         if(start.getCol()>0){
         Square left =board[start.getRow()][start.getCol()-1];
-        Square leftUp =board[start.getRow()-1][start.getCol()-1];
-        Square leftDown =board[start.getRow()+1][start.getCol()-1];
+        Square leftUp =null;
+        Square leftDown =null;
 
                 controlledSquares.add(left);
 
                 if (start.getRow()>0){
+                    leftUp =board[start.getRow()-1][start.getCol()-1];
                 controlledSquares.add(leftUp);
                 }
             
                 if (start.getRow()<7){
+                    leftDown =board[start.getRow()+1][start.getCol()-1];
                 controlledSquares.add(leftDown);
                 }
             
