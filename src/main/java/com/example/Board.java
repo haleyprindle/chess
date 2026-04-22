@@ -118,6 +118,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	//it's up to you how you wish to arrange your pieces.
     void initializePieces() {
     	
+                board[0][3].put(new King ( true, RESOURCES_WKING_PNG));
+        board[7][3].put(new King ( false, RESOURCES_BKING_PNG));
+        board[6][1].put(new Pawn ( false, RESOURCES_BPAWN_PNG));
+      
+        
     	board[0][0].put(new Swapper(true, RESOURCES_WSWAPPER_PNG));
         board[7][0].put(new Swapper(false, RESOURCES_BSWAPPER_PNG));
 
@@ -153,6 +158,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         board[7][2].put(new Bishop ( false, RESOURCES_BBISHOP_PNG));
         board[0][5].put(new Bishop ( true, RESOURCES_WBISHOP_PNG));
         board[7][5].put(new Bishop ( false, RESOURCES_BBISHOP_PNG));
+        
     }
 
     public Square[][] getSquareArray() {
@@ -236,8 +242,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 Square square = board[r][c];
                 Piece piece = square.getOccupyingPiece();
 
-                if(piece instanceof King && piece.getColor() == kingColor)
+                if(piece != null && piece instanceof King && piece.getColor() == kingColor)
+                {
                     kingSquare = square;
+                    break;
+                }
             }
 
         }
@@ -249,8 +258,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             for(int c=0; c<board[r].length; c++){
                 Square start = board[r][c];
                 Piece piece = start.getOccupyingPiece();
-
+               
                 if(piece != null && piece.getColor() != kingColor){
+                     for(Square s: piece.getControlledSquares(board, start)){
+                    s.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.PINK));
+                }
                     if(piece.getControlledSquares(board,start).contains(kingSquare)){
                         return true;
                     }
@@ -278,7 +290,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             s.setBorder(null);
             }
         //using currPiece
-        
+        }
             if(fromMoveSquare!=null){
                 fromMoveSquare.setDisplay(true);
                 if(currPiece!=null&& currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare)&& whiteTurn == currPiece.getColor()){
@@ -314,7 +326,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             }
             
         
-         }
+         
         System.out.println("Is White: " + whiteTurn);
         currPiece = null;
         repaint();
