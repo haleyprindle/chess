@@ -115,8 +115,8 @@ public class Swapper extends Piece {
         Square right =b.getSquareArray()[start.getRow()][start.getCol()+1];
        
         
-            if(right.isOccupied()==false || right.getOccupyingPiece().getColor()!=color )
-            {
+            if(right.isOccupied()==false ||right.getOccupyingPiece().getColor()!=color )
+            { 
                 ret.add(right);
             }
             if (start.getRow()>0){

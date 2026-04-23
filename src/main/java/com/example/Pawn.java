@@ -1,162 +1,61 @@
-
-//Miguel M
-// Pawn, moves forward one square and captures diagonally forward. Can move forward 2 spaces if it's the pawn's first move.
+//Mr. M -
+//This is a pawn that follows regular pawn rules. It does not do "en passant" or promotion
+//If you would like to implement these two things you will need to make some changes to
+//the "mouseReleased" section of your Board.java class. Don't forget to use "instanceof Pawn" if you'd like to
+//take up this challenge!
 package com.example;
 
 import java.util.ArrayList;
 
-//you will need to implement two functions in this file.
 public class Pawn extends Piece {
-    public Pawn(boolean isWhite, String img_file) {
-        super(isWhite, img_file);
+    public Pawn(boolean color, String img) {
+        super(color, img);
     }
 
-    @Override
-    public String toString() {
-        return "A " + super.toString() + " pawn";
-    }
-
-    // precon: a valid double square array, a valid square on the board
-    // poscon: all the squares that the pawn controls on the board, as of the square
-    // given
-    @Override
-    public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
-        ArrayList<Square> controlledSquares = new ArrayList<Square>();
-        if (start == null || board == null) {
-            return controlledSquares;
-        }
-        boolean iswhite = this.getColor();
-        int row = start.getRow();
-        int col = start.getCol();
-        if (iswhite) {
-            if ((row - 1 >= 0) && (col - 1 >= 0)) {
-                controlledSquares.add(board[row - 1][col - 1]);
-                System.out.println("check wcl");
-            }
-            if ((row - 1 >= 0) && (col + 1 < 8)) {
-                controlledSquares.add(board[row - 1][col + 1]);
-                System.out.println("check wcr");
-            }
-        } else {
-            if ((row + 1 < 8) && (col - 1 >= 0)) {
-                controlledSquares.add(board[row + 1][col - 1]);
-                System.out.println("check bcl");
-            }
-            if ((row + 1 < 8) && (col + 1 < 8)) {
-                controlledSquares.add(board[row + 1][col + 1]);
-                System.out.println("check bcr");
-            }
-        }
-        return controlledSquares;
-    }
-
-    // RULES:
-    // The pawn can move one piece forward at a time
-    // If it is the pawns first move, it can move 2 spaces forward
-    // If a piece is one space diagonally forward left or right to the pawn,
-    // then it can move to that space and capture it if there is a pawn of the
-    // opposite color there.
-    // precon: a valid 8x8 chess board, and a valid square on that chess board
-    // poscon: returns all the legal moves for the pawn on that square
-    @Override
-    public ArrayList<Square> getLegalMoves(Board b, Square start) {
+    public ArrayList<Square> getLegalMoves(Board b, Square currentSquare) {
         ArrayList<Square> moves = new ArrayList<Square>();
-        boolean iswhite = this.getColor();
-        int sr = start.getRow();
-        int sc = start.getCol();
-        System.out.println("checked square [" + sr + "," + sc + "]");
-        // white
-        if (!iswhite) {
-            // 1 move forward
-            {
-                if (sr - 1 >= 0
-                        &&
-                        !(b.getSquareArray()[sr - 1][sc].isOccupied())) {
-                    moves.add(b.getSquareArray()[sr - 1][sc]);
-                    System.out.println("w1 check");
+        for (Square s : getControlledSquares(b.getSquareArray(), currentSquare)) {
+            if (s.isOccupied() && s.getOccupyingPiece().getColor() != getColor()) {
+                moves.add(s);
+            }
+        }
+
+        // --- MODIFIED SECTION ---
+        // Assuming getColor() == true is WHITE, false is BLACK
+        if (getColor()) { // WHITE moves DOWN (increasing row)
+            if (currentSquare.getRow() + 1 < 8 && !b.getSquareArray()[currentSquare.getRow() + 1][currentSquare.getCol()].isOccupied()) {
+                moves.add(b.getSquareArray()[currentSquare.getRow() + 1][currentSquare.getCol()]);
+                // Initial 2-square move from row 1
+                if (currentSquare.getRow() == 1 && !b.getSquareArray()[currentSquare.getRow() + 2][currentSquare.getCol()].isOccupied()) {
+                    moves.add(b.getSquareArray()[currentSquare.getRow() + 2][currentSquare.getCol()]);
                 }
             }
-            // 2 move forward
-            {
-                if (sr == 6
-                        &&
-                        !(b.getSquareArray()[sr - 1][sc].isOccupied())
-                        &&
-                        !(b.getSquareArray()[sr - 2][sc].isOccupied())) {
-                    moves.add(b.getSquareArray()[sr - 2][sc]);
-                    System.out.println("w2 check");
-                }
-            }
-            // captures
-            {
-                // left capture
-                if ((sr - 1 >= 0) && (sc - 1 >= 0)
-                        &&
-                        b.getSquareArray()[sr - 1][sc - 1].isOccupied()
-                        &&
-                        b.getSquareArray()[sr - 1][sc -
-                                1].getOccupyingPiece().getColor() != iswhite) {
-                    moves.add(b.getSquareArray()[sr - 1][sc - 1]);
-                    System.out.println("wcl check");
-                }
-                // right capture
-                if ((sr - 1 >= 0) && (sc + 1 < 8)
-                        &&
-                        b.getSquareArray()[sr - 1][sc + 1].isOccupied()
-                        &&
-                        b.getSquareArray()[sr - 1][sc +
-                                1].getOccupyingPiece().getColor() != iswhite) {
-                    moves.add(b.getSquareArray()[sr - 1][sc + 1]);
-                    System.out.println("wcr check");
+        } else { // BLACK moves UP (decreasing row)
+            if (currentSquare.getRow() - 1 >= 0 && !b.getSquareArray()[currentSquare.getRow() - 1][currentSquare.getCol()].isOccupied()) {
+                moves.add(b.getSquareArray()[currentSquare.getRow() - 1][currentSquare.getCol()]);
+                // Initial 2-square move from row 6
+                if (currentSquare.getRow() == 6 && !b.getSquareArray()[currentSquare.getRow() - 2][currentSquare.getCol()].isOccupied()) {
+                    moves.add(b.getSquareArray()[currentSquare.getRow() - 2][currentSquare.getCol()]);
                 }
             }
         }
-        // black
-        else {
-            // 1 move forward
-            {
-                if (sr + 1 < 8
-                        &&
-                        !(b.getSquareArray()[sr + 1][sc].isOccupied())) {
-                    moves.add(b.getSquareArray()[sr + 1][sc]);
-                    System.out.println("b1 check");
-                }
-            }
-            // 2 move forward
-            {
-                if (sr == 1
-                        &&
-                        !(b.getSquareArray()[sr + 1][sc].isOccupied())
-                        &&
-                        !(b.getSquareArray()[sr + 2][sc].isOccupied())) {
-                    moves.add(b.getSquareArray()[sr + 2][sc]);
-                    System.out.println("b2 check");
-                }
-            }
-            // captures
-            {
-                // left capture
-                if ((sr + 1 < 8) && (sc - 1 >= 0)
-                        &&
-                        b.getSquareArray()[sr + 1][sc - 1].isOccupied()
-                        &&
-                        b.getSquareArray()[sr + 1][sc -
-                                1].getOccupyingPiece().getColor() != iswhite) {
-                    moves.add(b.getSquareArray()[sr + 1][sc - 1]);
-                    System.out.println("bcl check");
-                }
-                // right capture
-                if ((sr + 1 < 8) && (sc + 1 < 8)
-                        &&
-                        b.getSquareArray()[sr + 1][sc + 1].isOccupied()
-                        &&
-                        b.getSquareArray()[sr + 1][sc +
-                                1].getOccupyingPiece().getColor() != iswhite) {
-                    moves.add(b.getSquareArray()[sr + 1][sc + 1]);
-                    System.out.println("bcr check");
-                }
-            }
-        }
+        // ------------------------
         return moves;
+    }
+
+    public ArrayList<Square> getControlledSquares(Square[][] board, Square currentSquare) {
+        ArrayList<Square> controlled = new ArrayList<Square>();
+        // White moves to higher index (1), Black to lower (-1)
+        int drow = getColor() ? 1 : -1;
+        
+        if (currentSquare.getRow() + drow >= 0 && currentSquare.getRow() + drow < 8) {
+            if (currentSquare.getCol() + 1 < 8) {
+                controlled.add(board[currentSquare.getRow() + drow][currentSquare.getCol() + 1]);
+            }
+            if (currentSquare.getCol() - 1 >= 0) {
+                controlled.add(board[currentSquare.getRow() + drow][currentSquare.getCol() - 1]);
+            }
+        }
+        return controlled;
     }
 }
